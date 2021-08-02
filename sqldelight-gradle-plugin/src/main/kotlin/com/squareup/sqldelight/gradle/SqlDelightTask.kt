@@ -32,6 +32,7 @@ import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.ParserRuleContext
 import org.gradle.api.logging.LogLevel
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.SourceTask
@@ -46,14 +47,14 @@ open class SqlDelightTask : SourceTask() {
   private val sqldelightValidator = SqlDelightValidator()
 
   @Suppress("unused") // Required to invalidate the task on version updates.
-  @Input fun pluginVersion() = VERSION
+  fun pluginVersion() = VERSION
 
   @get:OutputDirectory var outputDirectory: File? = null
 
-  var buildDirectory: File? = null
+  @Input var buildDirectory: String? = null
     set(value) {
       field = value
-      outputDirectory = SqliteCompiler.OUTPUT_DIRECTORY.fold(buildDirectory, ::File)
+      outputDirectory = SqliteCompiler.OUTPUT_DIRECTORY.fold(File(buildDirectory), ::File)
     }
 
   @TaskAction

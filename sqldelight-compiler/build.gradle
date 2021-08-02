@@ -13,6 +13,9 @@ sourceSets {
 }
 
 generateGrammarSource {
+
+  new File("src/main/build").mkdirs()
+
   outputDirectory = new File("src/main/build")
 }
 
